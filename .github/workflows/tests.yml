@@ -68,7 +68,18 @@ jobs:
       - name: Build Assets
         run: npm run build
 
-      # 2. Ubah konfigurasi database ke MySQL
+      # 1. Tambahkan step migrasi ini
+      - name: Run Database Migrations
+        env:
+          DB_CONNECTION: mysql
+          DB_HOST: 127.0.0.1
+          DB_PORT: 3306
+          DB_DATABASE: testing_db
+          DB_USERNAME: root
+          DB_PASSWORD: ''
+        run: php artisan migrate --force
+
+      # 2. Step test biarkan sama seperti sebelumnya
       - name: Tests
         env:
           DB_CONNECTION: mysql
